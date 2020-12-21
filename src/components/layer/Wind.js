@@ -16,19 +16,21 @@ export default class WindLayer extends Layer {
         const baseOptions = assign({}, options);
         delete baseOptions.fading;
         delete baseOptions.ttl;
-        // TODO delete baseOptions.uvBuffer;
+        delete baseOptions.uvBuffer;
         delete baseOptions.particleColor;
         delete baseOptions.particleSize;
+        delete baseOptions.particleCount;
 
         super(baseOptions);
 
+        // TODO Use console.assert()
         this.fading = options.fading || 0.8;
         this.ttl = options.ttl || 50;
-        // TODO this.uvBuffer = options.uvBuffer;
+        this.uvBuffer = options.uvBuffer;
         this.particleColor = options.particleColor || 'black';
         this.particleSize = options.particleSize || 1.5;
 
-        this.particles = new Array(Number(options.particles || 1000));
+        this.particles = new Array(Number(options.particleCount || 1000));
         for (let i = 0; i < this.particles.length; ++i) {
             this.particles[i] = {
                 ttl: Math.random() * this.ttl,
@@ -62,13 +64,10 @@ export default class WindLayer extends Layer {
             }
 
             // Compute new position
-            // TODO const [u, v] = this.uvBuffer.getUVSpeed(particle.coordinates);
+            const [u, v] = this.uvBuffer.getUVSpeed(particle.coordinates);
 
-            const u = 2;
-            const v = 2;
-
-            particle.coordinates[0] += u * resolution;
-            particle.coordinates[1] += v * resolution;
+            particle.coordinates[0] += u * resolution / 10;
+            particle.coordinates[1] += v * resolution / 10;
         })
     }
 

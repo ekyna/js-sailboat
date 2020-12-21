@@ -51,7 +51,7 @@ export default class WindLayerRenderer extends CanvasLayerRenderer {
         return new Promise(
             function (resolve) {
                 return resolve([]);
-            }//.bind(this)
+            }
         );
     }
 
