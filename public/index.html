@@ -16,7 +16,45 @@
       </strong>
     </noscript>
 
-    <div id="map" class="map"></div>
+    <!-- TODO Login / Register ui -->
+
+    <div id="lobby" class="screen">
+
+      <div class="wrapper">
+
+        <form id="register" class="form">
+          <p class="title">
+            Register
+          </p>
+          <p>
+            <label for="register_name">Boat name</label>
+            <input id="register_name" type="text" name="name">
+          </p>
+          <p id="register_error" class="error"></p>
+          <p>
+            <button type="submit">Register</button>
+          </p>
+        </form>
+
+        <form id="login" class="form">
+          <p class="title">
+            Sign In
+          </p>
+          <p>
+            <label for="login_name">Boat name</label>
+            <input id="login_name" type="text" name="name">
+          </p>
+          <p id="login_error" class="error"></p>
+          <p>
+            <button type="submit">Login</button>
+          </p>
+        </form>
+
+      </div>
+
+    </div>
+
+    <div id="map" class="screen"></div>
 
     <!--<div id="app"></div>-->
 

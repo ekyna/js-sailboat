@@ -1,4 +1,6 @@
-# ekyna/js-sailboat
+# ekyna/sailboat
+
+Sailboat game.
 
 # Usage
 

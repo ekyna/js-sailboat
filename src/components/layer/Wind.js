@@ -66,8 +66,8 @@ export default class WindLayer extends Layer {
             // Compute new position
             const [u, v] = this.uvBuffer.getUVSpeed(particle.coordinates);
 
-            particle.coordinates[0] += u * resolution / 10;
-            particle.coordinates[1] += v * resolution / 10;
+            particle.coordinates[0] += u * resolution / 15;
+            particle.coordinates[1] += v * resolution / 15;
         })
     }
 

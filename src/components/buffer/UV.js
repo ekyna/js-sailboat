@@ -38,34 +38,29 @@ export default class UVBuffer {
         }
     }
 
+    /**
+     * @param {number[]} coordinate
+     * @returns {number[]}
+     */
     getUVSpeed(coordinate) {
         const width = this.dataWidth_;
-        //const height = this.dataHeight_;
-        //const position = positionFromCoordinate(this.extent, width, height, coordinate);
         const position = transform(coordinate, 'EPSG:3857', 'EPSG:4326');
         const u = interpolatePosition(width, position, this.uBuffer_);
         const v = interpolatePosition(width, position, this.vBuffer_);
-        return [u,v];
+        return [u, v];
     }
-}
 
-/**
- * @param {import("ol/Extent").default} extent geographical extent of the data
- * @param {number} width number or columns of the data 2 dimensional array
- * @param {number} height number of rows of the data 2 dimensional array
- * @param {number[]} coordinate coordinates
- * @return {number[]} position in the data 2 dimensional array
- */
-export function positionFromCoordinate(extent, width, height, coordinate) {
-    // extent:  `[minx, miny, maxx, maxy]`
-    // Ratio of the extent where the coordinate is located
-    const xRatio = (coordinate[0] - extent[0]) / (extent[2] - extent[0]);
-    const yRatio = (coordinate[1] - extent[1]) / (extent[3] - extent[1]);
-
-    const x = xRatio * (width - 1);
-    const y = yRatio * (height - 1);
-
-    return [x, y];
+    /**
+     * @param {number[]} coordinate
+     * @returns {number[]}
+     */
+    getDirectionSpeed(coordinate) {
+        const width = this.dataWidth_;
+        const position = transform(coordinate, 'EPSG:3857', 'EPSG:4326');
+        const d = interpolatePosition(width, position, this.rotationBuffer_);
+        const s = interpolatePosition(width, position, this.speedBuffer_);
+        return [d, s];
+    }
 }
 
 /**
@@ -78,7 +73,7 @@ export function interpolatePosition(width, position, buffer) {
     //position = [55, 100];
     let [x, y] = position;
     x %= 360;
-    y += 90; y %= 180;
+    y = (y + 90) % 180;
 
     if (x >= width) {
         throw new Error('Out of bound');
@@ -88,10 +83,10 @@ export function interpolatePosition(width, position, buffer) {
         throw new Error('Out of buffer bound');
     }
 
-    const x1 =  Math.floor(x);
-    const y1 =  Math.floor(y);
-    const x2 =  Math.ceil(x);
-    const y2 =  Math.ceil(y);
+    const x1 = Math.floor(x);
+    const y1 = Math.floor(y);
+    const x2 = Math.ceil(x);
+    const y2 = Math.ceil(y);
 
     const dx = x - x1;
     const dy = y - y1;
